@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "Eliminar ajustes eliminados";
 "REMOVE_REMOVED_SETTINGS_DESC" = "Esto eliminará %ld ajustes que ya no están disponibles en YouTube.";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "Pantalla completa a la derecha";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "Siempre entrar en pantalla completa con el botón/barra de inicio en el lado derecho.";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "Pantalla completa a la izquierda";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "Siempre entrar en pantalla completa con la parte superior del teléfono en el lado derecho.";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "Desactivar miniplayer flotante";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Desactiva el miniplayer flotante. Restaura la barra inferior.";

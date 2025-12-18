@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "Eltávolított beállítások törlése";
 "REMOVE_REMOVED_SETTINGS_DESC" = "Ez törölni fogja a(z) %ld beállítást, amelyek már nem érhetők el a YouTube-ban.";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "Teljes képernyő jobbra";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "Mindig jobb oldalon legyen a kezdőlap gomb/sáv, amikor teljes képernyős módba lép.";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "Teljes képernyő balra";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "Mindig jobb oldalon legyen a telefon teteje, amikor teljes képernyős módba lép.";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "Lebegő minilejátszó kikapcsolása";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Kikapcsolja a lebegő minilejátszót. Visszaállítja az alsó sávot.";

@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "제거된 설정 삭제";
 "REMOVE_REMOVED_SETTINGS_DESC" = "YouTube에서 더 이상 사용할 수 없는 %ld개의 설정을 삭제합니다.";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "전체 화면 오른쪽으로";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "홈 버튼/바가 오른쪽에 오도록 항상 전체 화면으로 들어갑니다.";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "전체 화면 왼쪽으로";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "전화 상단이 오른쪽에 오도록 항상 전체 화면으로 들어갑니다.";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "플로팅 미니 플레이어 비활성화";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "플로팅 미니 플레이어를 비활성화합니다. 하단 바를 복원합니다.";

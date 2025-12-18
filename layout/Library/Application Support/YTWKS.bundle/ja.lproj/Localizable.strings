@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "削除された設定を削除";
 "REMOVE_REMOVED_SETTINGS_DESC" = "YouTubeで利用できなくなった%ld個の設定を削除します。";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "フルスクリーンを右側に";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "常にホームボタン/バーが右側になるようにフルスクリーンに入ります。";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "フルスクリーンを左側に";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "常に電話の上部が右側になるようにフルスクリーンに入ります。";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "フローティングミニプレーヤーを無効化";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "フローティングミニプレーヤーを無効にします。下部のバーが復元されます。";

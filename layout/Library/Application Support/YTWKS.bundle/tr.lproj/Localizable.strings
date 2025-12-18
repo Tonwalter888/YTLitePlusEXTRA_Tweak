@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "Kaldırılan ayarları sil";
 "REMOVE_REMOVED_SETTINGS_DESC" = "Bu, YouTube'da artık mevcut olmayan %ld ayarı kaldıracak.";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "Tam ekran sağa";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "Her zaman ana ekran düğmesi/çubuğu sağ tarafta olacak şekilde tam ekrana geçer.";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "Tam ekran sola";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "Her zaman telefonun üstü sağ tarafta olacak şekilde tam ekrana geçer.";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "Kayan mini oynatıcıyı devre dışı bırak";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Kayan mini oynatıcıyı devre dışı bırakır. Alt çubuğu geri getirir.";

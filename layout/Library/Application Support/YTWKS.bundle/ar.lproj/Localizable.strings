@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "إزالة الإعدادات المحذوفة";
 "REMOVE_REMOVED_SETTINGS_DESC" = "سيؤدي هذا إلى إزالة %ld إعدادات لم تعد متاحة في YouTube.";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "ملء الشاشة إلى اليمين";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "دخول وضع ملء الشاشة دائماً مع زر/شريط الصفحة الرئيسية على الجانب الأيمن.";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "ملء الشاشة إلى اليسار";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "دخول وضع ملء الشاشة دائماً مع أعلى الهاتف على الجانب الأيمن.";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "تعطيل مشغل مصغر عائم";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "تعطيل المشغل المصغر العائم. يعيد الشريط السفلي.";

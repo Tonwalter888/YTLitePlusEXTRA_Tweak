@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "删除已移除的设置";
 "REMOVE_REMOVED_SETTINGS_DESC" = "这将删除 %ld 个在 YouTube 中已不可用的设置。";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "全屏向右";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "始终以主屏幕按钮/栏在右侧的方式进入全屏。";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "全屏向左";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "始终以手机顶部在右侧的方式进入全屏。";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "禁用浮动迷你播放器";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "禁用浮动迷你播放器。恢复底部栏。";

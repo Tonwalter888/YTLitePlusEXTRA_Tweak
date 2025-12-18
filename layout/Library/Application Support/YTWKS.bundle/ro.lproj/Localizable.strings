@@ -38,3 +38,15 @@
 
 "REMOVE_REMOVED_SETTINGS" = "Eliminare setări eliminate";
 "REMOVE_REMOVED_SETTINGS_DESC" = "Aceasta va elimina %ld setări care nu mai sunt disponibile în YouTube.";
+
+// Fullscreen to the Right
+"FULLSCREEN_TO_THE_RIGHT" = "Ecran complet spre dreapta";
+"FULLSCREEN_TO_THE_RIGHT_DESC" = "Intră întotdeauna în modul ecran complet cu butonul/barul de acasă în partea dreaptă.";
+
+// Fullscreen to the Left
+"FULLSCREEN_TO_THE_LEFT" = "Ecran complet spre stânga";
+"FULLSCREEN_TO_THE_LEFT_DESC" = "Intră întotdeauna în modul ecran complet cu partea superioară a telefonului în partea dreaptă.";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "Dezactivare miniplayer flotant";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Dezactivează miniplayer-ul flotant. Restabilește bara de jos.";
