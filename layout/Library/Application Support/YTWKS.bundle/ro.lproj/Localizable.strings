@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "Dezactivare miniplayer flotant";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Dezactivează miniplayer-ul flotant. Restabilește bara de jos.";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "Importă preferințe";
+"EXPORT_PREFERENCES" = "Exportă preferințe";
+"RESTORE_DEFAULTS" = "Restaurează setările implicite";
+"IMPORT_CONFIRM" = "Aceasta va înlocui preferințele curente. Continuați?";
+"RESTORE_CONFIRM" = "Aceasta va reseta toate setările la valorile implicite și va reporni YouTube. Continuați?";
+"IMPORT_SUCCESS" = "Preferințe importate cu succes";
+"EXPORT_SUCCESS" = "Preferințe exportate cu succes";
+"IMPORT_FAILED" = "Importarea preferințelor a eșuat";
+"CANCEL" = "Anulează";
+"YES" = "Da";

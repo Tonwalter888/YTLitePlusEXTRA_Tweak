@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "フローティングミニプレーヤーを無効化";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "フローティングミニプレーヤーを無効にします。下部のバーが復元されます。";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "設定をインポート";
+"EXPORT_PREFERENCES" = "設定をエクスポート";
+"RESTORE_DEFAULTS" = "デフォルト設定に戻す";
+"IMPORT_CONFIRM" = "現在の設定が置き換えられます。続けますか？";
+"RESTORE_CONFIRM" = "すべての設定がデフォルト値にリセットされ、YouTubeが再起動します。続けますか？";
+"IMPORT_SUCCESS" = "設定を正常にインポートしました";
+"EXPORT_SUCCESS" = "設定を正常にエクスポートしました";
+"IMPORT_FAILED" = "設定のインポートに失敗しました";
+"CANCEL" = "キャンセル";
+"YES" = "はい";

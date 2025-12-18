@@ -11,8 +11,26 @@
 
 static const NSInteger YTWKSSection = 'ytwk';  // Use integer between YTUHD and YouPiP
 
-@interface YTSettingsSectionItemManager (YTweaks)
+@interface YTAlertView : UIView
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *subtitle;
++ (instancetype)confirmationDialogWithAction:(void (^)(void))action 
+                                 actionTitle:(NSString *)actionTitle
+                                cancelAction:(void (^)(void))cancelAction
+                                 cancelTitle:(NSString *)cancelTitle;
+- (void)show;
+@end
+
+@interface YTToastResponderEvent : NSObject
++ (instancetype)eventWithMessage:(NSString *)message firstResponder:(UIResponder *)responder;
+- (void)send;
+@end
+
+@interface YTSettingsSectionItemManager (YTweaks) <UIDocumentPickerDelegate>
 - (void)updateYTWKSSectionWithEntry:(id)entry;
+- (void)exportPreferences;
+- (void)importPreferences;
+- (void)restoreDefaults;
 @end
 
 NSUserDefaults *defaults;
@@ -115,6 +133,60 @@ NSBundle *YTWKSBundle() {
         settingItemId:2];
     [sectionItems insertObject:disableFloatingMiniplayer atIndex:2];
 
+    // Add space before preferences management section
+    YTSettingsSectionItem *space = [YTSettingsSectionItemClass itemWithTitle:nil 
+        accessibilityIdentifier:nil detailTextBlock:nil selectBlock:nil];
+    [sectionItems addObject:space];
+
+    // Import preferences
+    YTSettingsSectionItem *importPrefs = [YTSettingsSectionItemClass itemWithTitle:LOC(@"IMPORT_PREFERENCES")
+        titleDescription:nil
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            YTAlertView *alertView = [%c(YTAlertView) confirmationDialogWithAction:^{
+                [self importPreferences];
+            }
+            actionTitle:LOC(@"YES")
+            cancelAction:^{}
+            cancelTitle:LOC(@"CANCEL")];
+            alertView.title = LOC(@"WARNING");
+            alertView.subtitle = LOC(@"IMPORT_CONFIRM");
+            [alertView show];
+            return YES;
+        }];
+    [sectionItems addObject:importPrefs];
+
+    // Export preferences
+    YTSettingsSectionItem *exportPrefs = [YTSettingsSectionItemClass itemWithTitle:LOC(@"EXPORT_PREFERENCES")
+        titleDescription:nil
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            [self exportPreferences];
+            return YES;
+        }];
+    [sectionItems addObject:exportPrefs];
+
+    // Restore defaults
+    YTSettingsSectionItem *restoreDefaults = [YTSettingsSectionItemClass itemWithTitle:LOC(@"RESTORE_DEFAULTS")
+        titleDescription:nil
+        accessibilityIdentifier:nil
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            YTAlertView *alertView = [%c(YTAlertView) confirmationDialogWithAction:^{
+                [self restoreDefaults];
+            }
+            actionTitle:LOC(@"YES")
+            cancelAction:^{}
+            cancelTitle:LOC(@"CANCEL")];
+            alertView.title = LOC(@"WARNING");
+            alertView.subtitle = LOC(@"RESTORE_CONFIRM");
+            [alertView show];
+            return YES;
+        }];
+    [sectionItems addObject:restoreDefaults];
+
     YTSettingsViewController *delegate = [self valueForKey:@"_dataDelegate"];
     NSString *title = @"YTweaks";
     if ([delegate respondsToSelector:@selector(setSectionItems:forCategory:title:icon:titleDescription:headerHidden:)]) {
@@ -140,6 +212,91 @@ NSBundle *YTWKSBundle() {
         return;
     }
     %orig;
+}
+
+%new
+- (void)exportPreferences {
+    // Get all preferences
+    NSDictionary *prefs = [defaults dictionaryRepresentation];
+    
+    // Filter only YTweaks keys
+    NSMutableDictionary *ytweaksPrefs = [NSMutableDictionary dictionary];
+    for (NSString *key in prefs) {
+        if ([key hasPrefix:@"fullscreenToTheRight"] || 
+            [key hasPrefix:@"fullscreenToTheLeft"] || 
+            [key hasPrefix:@"enable"]) {
+            ytweaksPrefs[key] = prefs[key];
+        }
+    }
+    
+    // Write to temp file
+    NSString *tempPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"YTweaks-preferences.plist"];
+    [ytweaksPrefs writeToFile:tempPath atomically:YES];
+    
+    // Present document picker for save
+    NSURL *fileURL = [NSURL fileURLWithPath:tempPath];
+    UIDocumentPickerViewController *picker = [[UIDocumentPickerViewController alloc] 
+        initWithURL:fileURL 
+        inMode:UIDocumentPickerModeExportToService];
+    picker.delegate = self;
+    
+    YTSettingsViewController *settingsVC = [self valueForKey:@"_dataDelegate"];
+    [settingsVC presentViewController:picker animated:YES completion:nil];
+}
+
+%new
+- (void)importPreferences {
+    UIDocumentPickerViewController *picker = [[UIDocumentPickerViewController alloc] 
+        initWithDocumentTypes:@[@"public.xml", @"com.apple.property-list"] 
+        inMode:UIDocumentPickerModeImport];
+    picker.delegate = self;
+    picker.allowsMultipleSelection = NO;
+    
+    YTSettingsViewController *settingsVC = [self valueForKey:@"_dataDelegate"];
+    [settingsVC presentViewController:picker animated:YES completion:nil];
+}
+
+%new
+- (void)documentPicker:(UIDocumentPickerViewController *)controller 
+    didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
+    
+    if (urls.count == 0) return;
+    
+    NSURL *fileURL = urls[0];
+    NSDictionary *importedPrefs = [NSDictionary dictionaryWithContentsOfURL:fileURL];
+    
+    NSBundle *bundle = YTWKSBundle();
+    if (importedPrefs) {
+        // Import preferences
+        for (NSString *key in importedPrefs) {
+            [defaults setObject:importedPrefs[key] forKey:key];
+        }
+        [defaults synchronize];
+        
+        // Show success message
+        NSString *successMsg = [bundle localizedStringForKey:@"IMPORT_SUCCESS" value:nil table:nil];
+        [[%c(YTToastResponderEvent) eventWithMessage:successMsg 
+            firstResponder:[self parentResponder]] send];
+    } else {
+        NSString *failMsg = [bundle localizedStringForKey:@"IMPORT_FAILED" value:nil table:nil];
+        [[%c(YTToastResponderEvent) eventWithMessage:failMsg 
+            firstResponder:[self parentResponder]] send];
+    }
+}
+
+%new
+- (void)restoreDefaults {
+    NSArray *keys = @[@"fullscreenToTheRight_enabled", 
+                      @"fullscreenToTheLeft_enabled", 
+                      @"enableIosFloatingMiniplayer"];
+    
+    for (NSString *key in keys) {
+        [defaults removeObjectForKey:key];
+    }
+    [defaults synchronize];
+    
+    // Restart app
+    exit(0);
 }
 
 %end

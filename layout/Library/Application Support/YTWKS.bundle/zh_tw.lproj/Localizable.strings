@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "停用浮動迷你播放器";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "停用浮動迷你播放器。恢復底部列。";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "匯入偏好設定";
+"EXPORT_PREFERENCES" = "匯出偏好設定";
+"RESTORE_DEFAULTS" = "還原預設設定";
+"IMPORT_CONFIRM" = "這將取代目前的偏好設定。是否繼續？";
+"RESTORE_CONFIRM" = "這將把所有設定重設為預設值並重新啟動 YouTube。是否繼續？";
+"IMPORT_SUCCESS" = "成功匯入偏好設定";
+"EXPORT_SUCCESS" = "成功匯出偏好設定";
+"IMPORT_FAILED" = "匯入偏好設定失敗";
+"CANCEL" = "取消";
+"YES" = "是";

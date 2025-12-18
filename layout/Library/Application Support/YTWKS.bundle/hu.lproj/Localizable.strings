@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "Lebegő minilejátszó kikapcsolása";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Kikapcsolja a lebegő minilejátszót. Visszaállítja az alsó sávot.";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "Beállítások importálása";
+"EXPORT_PREFERENCES" = "Beállítások exportálása";
+"RESTORE_DEFAULTS" = "Alapértelmezett beállítások visszaállítása";
+"IMPORT_CONFIRM" = "Ez felülírja a jelenlegi beállításokat. Folytatja?";
+"RESTORE_CONFIRM" = "Ez visszaállítja az összes beállítást az alapértelmezett értékekre és újraindítja a YouTube-ot. Folytatja?";
+"IMPORT_SUCCESS" = "Beállítások sikeresen importálva";
+"EXPORT_SUCCESS" = "Beállítások sikeresen exportálva";
+"IMPORT_FAILED" = "A beállítások importálása sikertelen";
+"CANCEL" = "Mégse";
+"YES" = "Igen";

@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "Nonaktifkan miniplayer mengambang";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Menonaktifkan miniplayer mengambang. Memulihkan bilah di bagian bawah.";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "Impor preferensi";
+"EXPORT_PREFERENCES" = "Ekspor preferensi";
+"RESTORE_DEFAULTS" = "Kembalikan pengaturan default";
+"IMPORT_CONFIRM" = "Ini akan mengganti preferensi saat ini. Lanjutkan?";
+"RESTORE_CONFIRM" = "Ini akan mengatur ulang semua pengaturan ke nilai default dan memulai ulang YouTube. Lanjutkan?";
+"IMPORT_SUCCESS" = "Preferensi berhasil diimpor";
+"EXPORT_SUCCESS" = "Preferensi berhasil diekspor";
+"IMPORT_FAILED" = "Gagal mengimpor preferensi";
+"CANCEL" = "Batal";
+"YES" = "Ya";

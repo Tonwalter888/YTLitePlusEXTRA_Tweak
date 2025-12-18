@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "Disable Floating Miniplayer";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Brings back the classic miniplayer by disabling A/B flag: enableIosFloatingMiniplayer. Requires app restart.";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "Import preferences";
+"EXPORT_PREFERENCES" = "Export preferences";
+"RESTORE_DEFAULTS" = "Restore default settings";
+"IMPORT_CONFIRM" = "This will replace current preferences. Continue?";
+"RESTORE_CONFIRM" = "This will reset all settings to defaults and restart YouTube. Continue?";
+"IMPORT_SUCCESS" = "Preferences imported successfully";
+"EXPORT_SUCCESS" = "Preferences exported successfully";
+"IMPORT_FAILED" = "Failed to import preferences";
+"CANCEL" = "Cancel";
+"YES" = "Yes";

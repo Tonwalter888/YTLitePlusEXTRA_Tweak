@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "Kayan mini oynatıcıyı devre dışı bırak";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Kayan mini oynatıcıyı devre dışı bırakır. Alt çubuğu geri getirir.";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "Tercihleri içe aktar";
+"EXPORT_PREFERENCES" = "Tercihleri dışa aktar";
+"RESTORE_DEFAULTS" = "Varsayılan ayarları geri yükle";
+"IMPORT_CONFIRM" = "Bu, mevcut tercihleri değiştirecek. Devam etmek istiyor musun?";
+"RESTORE_CONFIRM" = "Bu, tüm ayarları varsayılan değerlere sıfırlayacak ve YouTube'u yeniden başlatacak. Devam etmek istiyor musun?";
+"IMPORT_SUCCESS" = "Tercihler başarıyla içe aktarıldı";
+"EXPORT_SUCCESS" = "Tercihler başarıyla dışa aktarıldı";
+"IMPORT_FAILED" = "Tercihler içe aktarılamadı";
+"CANCEL" = "İptal";
+"YES" = "Evet";

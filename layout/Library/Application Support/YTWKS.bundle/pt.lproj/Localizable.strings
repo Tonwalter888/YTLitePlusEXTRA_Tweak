@@ -13,3 +13,15 @@
 // A/B Testing Settings
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "Desativar miniplayer flutuante";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Desativa o miniplayer flutuante. Restaura a barra na parte inferior.";
+
+// Preferences Management
+"IMPORT_PREFERENCES" = "Importar preferências";
+"EXPORT_PREFERENCES" = "Exportar preferências";
+"RESTORE_DEFAULTS" = "Restaurar configurações padrão";
+"IMPORT_CONFIRM" = "Isso substituirá as preferências atuais. Continuar?";
+"RESTORE_CONFIRM" = "Isso redefinirá todas as configurações para os valores padrão e reiniciará o YouTube. Continuar?";
+"IMPORT_SUCCESS" = "Preferências importadas com sucesso";
+"EXPORT_SUCCESS" = "Preferências exportadas com sucesso";
+"IMPORT_FAILED" = "Falha ao importar preferências";
+"CANCEL" = "Cancelar";
+"YES" = "Sim";
