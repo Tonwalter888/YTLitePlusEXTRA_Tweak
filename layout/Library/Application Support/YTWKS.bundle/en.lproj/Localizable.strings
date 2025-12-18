@@ -46,3 +46,7 @@
 // Fullscreen to the Left
 "FULLSCREEN_TO_THE_LEFT" = "Fullscreen to the Left";
 "FULLSCREEN_TO_THE_LEFT_DESC" = "Always enter fullscreen with top of phone on the right side.";
+
+// A/B Testing Settings
+"ENABLE_IOS_FLOATING_MINIPLAYER" = "iOS Floating Miniplayer";
+"ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Enable the floating miniplayer feature on iOS.";

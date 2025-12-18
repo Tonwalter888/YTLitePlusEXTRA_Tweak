@@ -114,6 +114,19 @@ NSBundle *YTWKSBundle() {
         settingItemId:1];
     [sectionItems insertObject:fullscreenToLeft atIndex:1];
 
+    // A/B Testing: iOS Floating Miniplayer
+    YTSettingsSectionItem *enableIosFloatingMiniplayer = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER")
+        titleDescription:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER_DESC")
+        accessibilityIdentifier:nil
+        switchOn:[defaults boolForKey:@"enableIosFloatingMiniplayer"]
+        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
+            [defaults setBool:enabled forKey:@"enableIosFloatingMiniplayer"];
+            [defaults synchronize];
+            return YES;
+        }
+        settingItemId:2];
+    [sectionItems insertObject:enableIosFloatingMiniplayer atIndex:2];
+
     YTSettingsViewController *delegate = [self valueForKey:@"_dataDelegate"];
     NSString *title = @"YTweaks";
     if ([delegate respondsToSelector:@selector(setSectionItems:forCategory:title:icon:titleDescription:headerHidden:)]) {
