@@ -53,25 +53,7 @@ NSBundle *YTWKSBundle() {
         // Check if YTWKSSection already exists to avoid duplicates
         NSNumber *sectionNumber = @(YTWKSSection);
         if (![mutableOrder containsObject:sectionNumber]) {
-            // Find YTUHD section ('ythd') and YouPiP section (200) to insert between them
-            NSInteger ytuhdSection = 'ythd';
-            NSInteger youpipSection = 200;
-            NSUInteger ytuhdIndex = [mutableOrder indexOfObject:@(ytuhdSection)];
-            NSUInteger youpipIndex = [mutableOrder indexOfObject:@(youpipSection)];
-            
-            if (ytuhdIndex != NSNotFound && youpipIndex != NSNotFound && ytuhdIndex < youpipIndex) {
-                // Insert after YTUHD, before YouPiP
-                [mutableOrder insertObject:sectionNumber atIndex:ytuhdIndex + 1];
-            } else if (ytuhdIndex != NSNotFound) {
-                // YTUHD exists, insert after it
-                [mutableOrder insertObject:sectionNumber atIndex:ytuhdIndex + 1];
-            } else if (youpipIndex != NSNotFound) {
-                // YouPiP exists, insert before it
-                [mutableOrder insertObject:sectionNumber atIndex:youpipIndex];
-            } else {
-                // Neither exists, insert after "Tweaks" section
-                [mutableOrder insertObject:sectionNumber atIndex:insertIndex + 1];
-            }
+            [mutableOrder insertObject:sectionNumber atIndex:insertIndex + 1];
         }
         order = mutableOrder.copy;
     }
