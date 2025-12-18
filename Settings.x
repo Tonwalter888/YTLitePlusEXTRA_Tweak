@@ -114,18 +114,24 @@ NSBundle *YTWKSBundle() {
         settingItemId:1];
     [sectionItems insertObject:fullscreenToLeft atIndex:1];
 
-    // A/B Testing: iOS Floating Miniplayer
-    YTSettingsSectionItem *enableIosFloatingMiniplayer = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER")
+    // A/B settings: Disable Floating Miniplayer
+    // YouTube's A/B flag: enableIosFloatingMiniplayer (YES = enabled, NO = disabled)
+    // Our switch: ON = disable miniplayer, OFF = enable miniplayer
+    BOOL isMiniplayerEnabled = [defaults objectForKey:@"enableIosFloatingMiniplayer"] 
+        ? [defaults boolForKey:@"enableIosFloatingMiniplayer"] 
+        : YES; // Default: miniplayer enabled (switch OFF)
+    YTSettingsSectionItem *disableFloatingMiniplayer = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER")
         titleDescription:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER_DESC")
         accessibilityIdentifier:nil
-        switchOn:[defaults boolForKey:@"enableIosFloatingMiniplayer"]
-        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
-            [defaults setBool:enabled forKey:@"enableIosFloatingMiniplayer"];
+        switchOn:!isMiniplayerEnabled
+        switchBlock:^BOOL (YTSettingsCell *cell, BOOL disableMiniplayer) {
+            // Invert: switch ON (disable) → save NO (disabled), switch OFF (enable) → save YES (enabled)
+            [defaults setBool:!disableMiniplayer forKey:@"enableIosFloatingMiniplayer"];
             [defaults synchronize];
             return YES;
         }
         settingItemId:2];
-    [sectionItems insertObject:enableIosFloatingMiniplayer atIndex:2];
+    [sectionItems insertObject:disableFloatingMiniplayer atIndex:2];
 
     YTSettingsViewController *delegate = [self valueForKey:@"_dataDelegate"];
     NSString *title = @"YTweaks";
