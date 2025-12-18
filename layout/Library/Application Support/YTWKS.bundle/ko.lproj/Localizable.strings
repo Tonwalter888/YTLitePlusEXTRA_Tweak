@@ -15,11 +15,12 @@
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "플로팅 미니 플레이어를 비활성화합니다. 하단 바를 복원합니다.";
 
 // Preferences Management
+"PREFERENCES_MANAGEMENT" = "환경 설정 관리";
 "IMPORT_PREFERENCES" = "환경 설정 가져오기";
 "EXPORT_PREFERENCES" = "환경 설정 내보내기";
 "RESTORE_DEFAULTS" = "기본 설정 복원";
 "IMPORT_CONFIRM" = "현재 환경 설정이 대체됩니다. 계속하시겠습니까?";
-"RESTORE_CONFIRM" = "모든 설정이 기본값으로 재설정되고 YouTube가 다시 시작됩니다. 계속하시겠습니까?";
+"RESTORE_CONFIRM" = "모든 설정이 기본값으로 재설정됩니다. 계속하시겠습니까?";
 "IMPORT_SUCCESS" = "환경 설정을 성공적으로 가져왔습니다";
 "EXPORT_SUCCESS" = "환경 설정을 성공적으로 내보냈습니다";
 "IMPORT_FAILED" = "환경 설정 가져오기 실패";

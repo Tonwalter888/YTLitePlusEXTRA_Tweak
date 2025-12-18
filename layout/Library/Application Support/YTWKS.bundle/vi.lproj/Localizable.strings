@@ -15,11 +15,12 @@
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Tắt trình phát nhỏ nổi. Khôi phục thanh ở dưới cùng.";
 
 // Preferences Management
+"PREFERENCES_MANAGEMENT" = "Quản lý tùy chọn";
 "IMPORT_PREFERENCES" = "Nhập tùy chọn";
 "EXPORT_PREFERENCES" = "Xuất tùy chọn";
 "RESTORE_DEFAULTS" = "Khôi phục cài đặt mặc định";
 "IMPORT_CONFIRM" = "Thao tác này sẽ thay thế các tùy chọn hiện tại. Tiếp tục?";
-"RESTORE_CONFIRM" = "Thao tác này sẽ đặt lại tất cả cài đặt về giá trị mặc định và khởi động lại YouTube. Tiếp tục?";
+"RESTORE_CONFIRM" = "Thao tác này sẽ đặt lại tất cả cài đặt về giá trị mặc định. Tiếp tục?";
 "IMPORT_SUCCESS" = "Nhập tùy chọn thành công";
 "EXPORT_SUCCESS" = "Xuất tùy chọn thành công";
 "IMPORT_FAILED" = "Nhập tùy chọn thất bại";

@@ -15,11 +15,12 @@
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "禁用浮动迷你播放器。恢复底部栏。";
 
 // Preferences Management
+"PREFERENCES_MANAGEMENT" = "偏好设置管理";
 "IMPORT_PREFERENCES" = "导入偏好设置";
 "EXPORT_PREFERENCES" = "导出偏好设置";
 "RESTORE_DEFAULTS" = "恢复默认设置";
 "IMPORT_CONFIRM" = "这将替换当前的偏好设置。是否继续？";
-"RESTORE_CONFIRM" = "这将把所有设置重置为默认值并重启 YouTube。是否继续？";
+"RESTORE_CONFIRM" = "这将把所有设置重置为默认值。是否继续？";
 "IMPORT_SUCCESS" = "成功导入偏好设置";
 "EXPORT_SUCCESS" = "成功导出偏好设置";
 "IMPORT_FAILED" = "导入偏好设置失败";

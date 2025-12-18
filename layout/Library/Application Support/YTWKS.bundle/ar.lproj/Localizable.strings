@@ -15,11 +15,12 @@
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "تعطيل المشغل المصغر العائم. يعيد الشريط السفلي.";
 
 // Preferences Management
+"PREFERENCES_MANAGEMENT" = "إدارة التفضيلات";
 "IMPORT_PREFERENCES" = "استيراد التفضيلات";
 "EXPORT_PREFERENCES" = "تصدير التفضيلات";
 "RESTORE_DEFAULTS" = "استعادة الإعدادات الافتراضية";
 "IMPORT_CONFIRM" = "سيؤدي هذا إلى استبدال التفضيلات الحالية. هل تريد المتابعة؟";
-"RESTORE_CONFIRM" = "سيؤدي هذا إلى إعادة تعيين جميع الإعدادات إلى القيم الافتراضية وإعادة تشغيل YouTube. هل تريد المتابعة؟";
+"RESTORE_CONFIRM" = "سيؤدي هذا إلى إعادة تعيين جميع الإعدادات إلى القيم الافتراضية. هل تريد المتابعة؟";
 "IMPORT_SUCCESS" = "تم استيراد التفضيلات بنجاح";
 "EXPORT_SUCCESS" = "تم تصدير التفضيلات بنجاح";
 "IMPORT_FAILED" = "فشل استيراد التفضيلات";

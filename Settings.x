@@ -3,7 +3,9 @@
 #import <YouTubeHeader/YTSettingsSectionItem.h>
 #import <YouTubeHeader/YTSettingsSectionItemManager.h>
 #import <YouTubeHeader/YTSettingsViewController.h>
+#import <YouTubeHeader/YTSettingsCell.h>
 #import <objc/runtime.h>
+#import <UIKit/UIKit.h>
 
 #define Prefix @"YTWKS"
 
@@ -100,55 +102,15 @@ NSBundle *YTWKSBundle() {
     NSBundle *tweakBundle = YTWKSBundle();
     Class YTSettingsSectionItemClass = %c(YTSettingsSectionItem);
 
-    // Fullscreen to the Right
-    YTSettingsSectionItem *fullscreenToRight = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"FULLSCREEN_TO_THE_RIGHT")
-        titleDescription:LOC(@"FULLSCREEN_TO_THE_RIGHT_DESC")
+    // Preferences management header (at the top)
+    YTSettingsSectionItem *prefsHeader = [YTSettingsSectionItemClass itemWithTitle:LOC(@"PREFERENCES_MANAGEMENT")
+        titleDescription:nil
         accessibilityIdentifier:nil
-        switchOn:[defaults boolForKey:@"fullscreenToTheRight_enabled"]
-        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
-            [defaults setBool:enabled forKey:@"fullscreenToTheRight_enabled"];
-            [defaults synchronize];
-            return YES;
-        }
-        settingItemId:0];
-    [sectionItems insertObject:fullscreenToRight atIndex:0];
-
-    // Fullscreen to the Left
-    YTSettingsSectionItem *fullscreenToLeft = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"FULLSCREEN_TO_THE_LEFT")
-        titleDescription:LOC(@"FULLSCREEN_TO_THE_LEFT_DESC")
-        accessibilityIdentifier:nil
-        switchOn:[defaults boolForKey:@"fullscreenToTheLeft_enabled"]
-        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
-            [defaults setBool:enabled forKey:@"fullscreenToTheLeft_enabled"];
-            [defaults synchronize];
-            return YES;
-        }
-        settingItemId:1];
-    [sectionItems insertObject:fullscreenToLeft atIndex:1];
-
-    // A/B settings: Disable Floating Miniplayer
-    // YouTube's A/B flag: enableIosFloatingMiniplayer (YES = enabled, NO = disabled)
-    // Our switch: ON = disable miniplayer, OFF = enable miniplayer
-    BOOL isMiniplayerEnabled = [defaults objectForKey:@"enableIosFloatingMiniplayer"] 
-        ? [defaults boolForKey:@"enableIosFloatingMiniplayer"] 
-        : YES; // Default: miniplayer enabled (switch OFF)
-    YTSettingsSectionItem *disableFloatingMiniplayer = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER")
-        titleDescription:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER_DESC")
-        accessibilityIdentifier:nil
-        switchOn:!isMiniplayerEnabled
-        switchBlock:^BOOL (YTSettingsCell *cell, BOOL disableMiniplayer) {
-            // Invert: switch ON (disable) → save NO (disabled), switch OFF (enable) → save YES (enabled)
-            [defaults setBool:!disableMiniplayer forKey:@"enableIosFloatingMiniplayer"];
-            [defaults synchronize];
-            return YES;
-        }
-        settingItemId:2];
-    [sectionItems insertObject:disableFloatingMiniplayer atIndex:2];
-
-    // Add space before preferences management section
-    YTSettingsSectionItem *space = [YTSettingsSectionItemClass itemWithTitle:nil 
-        accessibilityIdentifier:nil detailTextBlock:nil selectBlock:nil];
-    [sectionItems addObject:space];
+        detailTextBlock:nil
+        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
+            return NO; // Non-interactive header
+        }];
+    [sectionItems addObject:prefsHeader];
 
     // Import preferences
     YTSettingsSectionItem *importPrefs = [YTSettingsSectionItemClass itemWithTitle:LOC(@"IMPORT_PREFERENCES")
@@ -198,6 +160,51 @@ NSBundle *YTWKSBundle() {
             return YES;
         }];
     [sectionItems addObject:restoreDefaults];
+
+    // Fullscreen to the Right
+    YTSettingsSectionItem *fullscreenToRight = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"FULLSCREEN_TO_THE_RIGHT")
+        titleDescription:LOC(@"FULLSCREEN_TO_THE_RIGHT_DESC")
+        accessibilityIdentifier:nil
+        switchOn:[defaults boolForKey:@"fullscreenToTheRight_enabled"]
+        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
+            [defaults setBool:enabled forKey:@"fullscreenToTheRight_enabled"];
+            [defaults synchronize];
+            return YES;
+        }
+        settingItemId:0];
+    [sectionItems addObject:fullscreenToRight];
+
+    // Fullscreen to the Left
+    YTSettingsSectionItem *fullscreenToLeft = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"FULLSCREEN_TO_THE_LEFT")
+        titleDescription:LOC(@"FULLSCREEN_TO_THE_LEFT_DESC")
+        accessibilityIdentifier:nil
+        switchOn:[defaults boolForKey:@"fullscreenToTheLeft_enabled"]
+        switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {
+            [defaults setBool:enabled forKey:@"fullscreenToTheLeft_enabled"];
+            [defaults synchronize];
+            return YES;
+        }
+        settingItemId:1];
+    [sectionItems addObject:fullscreenToLeft];
+
+    // A/B settings: Disable Floating Miniplayer
+    // YouTube's A/B flag: enableIosFloatingMiniplayer (YES = enabled, NO = disabled)
+    // Our switch: ON = disable miniplayer, OFF = enable miniplayer
+    BOOL isMiniplayerEnabled = [defaults objectForKey:@"enableIosFloatingMiniplayer"] 
+        ? [defaults boolForKey:@"enableIosFloatingMiniplayer"] 
+        : YES; // Default: miniplayer enabled (switch OFF)
+    YTSettingsSectionItem *disableFloatingMiniplayer = [YTSettingsSectionItemClass switchItemWithTitle:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER")
+        titleDescription:LOC(@"ENABLE_IOS_FLOATING_MINIPLAYER_DESC")
+        accessibilityIdentifier:nil
+        switchOn:!isMiniplayerEnabled
+        switchBlock:^BOOL (YTSettingsCell *cell, BOOL disableMiniplayer) {
+            // Invert: switch ON (disable) → save NO (disabled), switch OFF (enable) → save YES (enabled)
+            [defaults setBool:!disableMiniplayer forKey:@"enableIosFloatingMiniplayer"];
+            [defaults synchronize];
+            return YES;
+        }
+        settingItemId:2];
+    [sectionItems addObject:disableFloatingMiniplayer];
 
     YTSettingsViewController *delegate = [self valueForKey:@"_dataDelegate"];
     NSString *title = @"YTweaks";
@@ -291,10 +298,6 @@ NSBundle *YTWKSBundle() {
         }
         [defaults synchronize];
         
-        // Reload the settings view to update the UI
-        YTSettingsViewController *settingsVC = [self valueForKey:@"_dataDelegate"];
-        [settingsVC reloadData];
-        
         // Show success message
         NSString *successMsg = [bundle localizedStringForKey:@"IMPORT_SUCCESS" value:nil table:nil];
         [[%c(YTToastResponderEvent) eventWithMessage:successMsg 
@@ -316,9 +319,57 @@ NSBundle *YTWKSBundle() {
         [defaults removeObjectForKey:key];
     }
     [defaults synchronize];
+}
+
+%end
+
+%hook YTSettingsCell
+
+- (void)layoutSubviews {
+    %orig;
     
-    // Restart app
-    exit(0);
+    // Make the preferences management header smaller and non-clickable
+    // Identify the header by searching for the localized text
+    NSBundle *bundle = YTWKSBundle();
+    NSString *headerText = [bundle localizedStringForKey:@"PREFERENCES_MANAGEMENT" value:nil table:nil];
+    
+    // Search for the header text in the cell's labels
+    BOOL isHeaderCell = NO;
+    UILabel *titleLabel = nil;
+    
+    @try {
+        // Try to get title label directly
+        titleLabel = [self valueForKey:@"_titleLabel"];
+        if (!titleLabel) {
+            titleLabel = [self valueForKey:@"titleLabel"];
+        }
+        
+        // If not found, search subviews
+        if (!titleLabel) {
+            for (UIView *subview in self.contentView.subviews) {
+                if ([subview isKindOfClass:[UILabel class]]) {
+                    UILabel *label = (UILabel *)subview;
+                    if ([label.text isEqualToString:headerText]) {
+                        titleLabel = label;
+                        isHeaderCell = YES;
+                        break;
+                    }
+                }
+            }
+        } else if (titleLabel && [titleLabel.text isEqualToString:headerText]) {
+            isHeaderCell = YES;
+        }
+        
+        if (isHeaderCell && titleLabel) {
+            // Disable user interaction
+            self.userInteractionEnabled = NO;
+            
+            // Make text smaller
+            titleLabel.font = [UIFont systemFontOfSize:13.0 weight:UIFontWeightSemibold];
+        }
+    } @catch (NSException *e) {
+        // Couldn't access properties
+    }
 }
 
 %end
