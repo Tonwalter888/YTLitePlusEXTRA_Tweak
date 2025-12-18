@@ -3,6 +3,7 @@
 #import <YouTubeHeader/YTSettingsSectionItem.h>
 #import <YouTubeHeader/YTSettingsSectionItemManager.h>
 #import <YouTubeHeader/YTSettingsViewController.h>
+#import <objc/runtime.h>
 
 #define Prefix @"YTWKS"
 
@@ -27,6 +28,7 @@ static const NSInteger YTWKSSection = 'ytwk';  // Use integer between YTUHD and 
 @end
 
 @interface YTSettingsSectionItemManager (YTweaks) <UIDocumentPickerDelegate>
+@property (nonatomic, assign) BOOL isImportingPreferences;
 - (void)updateYTWKSSectionWithEntry:(id)entry;
 - (void)exportPreferences;
 - (void)importPreferences;
@@ -81,6 +83,16 @@ NSBundle *YTWKSBundle() {
 %end
 
 %hook YTSettingsSectionItemManager
+
+%new
+- (void)setIsImportingPreferences:(BOOL)isImportingPreferences {
+    objc_setAssociatedObject(self, @selector(isImportingPreferences), @(isImportingPreferences), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+%new
+- (BOOL)isImportingPreferences {
+    return [objc_getAssociatedObject(self, @selector(isImportingPreferences)) boolValue];
+}
 
 %new(v@:@)
 - (void)updateYTWKSSectionWithEntry:(id)entry {
@@ -216,6 +228,8 @@ NSBundle *YTWKSBundle() {
 
 %new
 - (void)exportPreferences {
+    self.isImportingPreferences = NO;
+    
     // Get all preferences
     NSDictionary *prefs = [defaults dictionaryRepresentation];
     
@@ -246,6 +260,7 @@ NSBundle *YTWKSBundle() {
 
 %new
 - (void)importPreferences {
+    self.isImportingPreferences = YES;
     UIDocumentPickerViewController *picker = [[UIDocumentPickerViewController alloc] 
         initWithDocumentTypes:@[@"public.xml", @"com.apple.property-list"] 
         inMode:UIDocumentPickerModeImport];
@@ -260,6 +275,9 @@ NSBundle *YTWKSBundle() {
 - (void)documentPicker:(UIDocumentPickerViewController *)controller 
     didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
     
+    // Only process for import operations, ignore export
+    if (!self.isImportingPreferences) return;
+    
     if (urls.count == 0) return;
     
     NSURL *fileURL = urls[0];
@@ -272,6 +290,10 @@ NSBundle *YTWKSBundle() {
             [defaults setObject:importedPrefs[key] forKey:key];
         }
         [defaults synchronize];
+        
+        // Reload the settings view to update the UI
+        YTSettingsViewController *settingsVC = [self valueForKey:@"_dataDelegate"];
+        [settingsVC reloadData];
         
         // Show success message
         NSString *successMsg = [bundle localizedStringForKey:@"IMPORT_SUCCESS" value:nil table:nil];
