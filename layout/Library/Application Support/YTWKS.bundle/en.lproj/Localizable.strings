@@ -14,6 +14,10 @@
 "ENABLE_IOS_FLOATING_MINIPLAYER" = "Disable Floating Miniplayer";
 "ENABLE_IOS_FLOATING_MINIPLAYER_DESC" = "Brings back the classic miniplayer by disabling A/B flag: enableIosFloatingMiniplayer. Requires app restart.";
 
+// Virtual Bezel
+"VIRTUAL_BEZEL" = "Virtual fullscreen bezels";
+"VIRTUAL_BEZEL_DESC" = "Adds invisible touch-safe zones on black bars to prevent accidental taps and skips. Meant for iPhones with no home button.";
+
 // Preferences Management
 "PREFERENCES_MANAGEMENT" = "Preferences management";
 "IMPORT_PREFERENCES" = "Import preferences";
