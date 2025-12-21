@@ -9,9 +9,14 @@
 // Forward declarations
 @class YTWatchViewController;
 @class YTMainAppVideoPlayerOverlayView;
+@class YTAsyncCollectionView;
+@class _ASCollectionViewCell;
 
 // Storage for original method implementations
 NSMutableDictionary <NSString *, NSMutableDictionary <NSString *, NSNumber *> *> *abConfigCache;
+
+// Forward declaration for recursive summary finder
+static BOOL findSummaryInNodeController(id nodeController, NSArray <NSString *> *identifiers);
 
 // Helper function to get original value from config instance
 static BOOL getValueFromInvocation(id target, SEL selector) {
@@ -244,7 +249,237 @@ static void hookClass(NSObject *instance) {
 }
 %end
 
-// Hide AI Summaries - Look for sparkle/star icon (✨) and Summary text
+// Hide AI Summaries - Filter at element data level and remove cells
+%hook YTIElementRenderer
+- (NSData *)elementData {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"hideAISummaries_enabled"]) {
+        return %orig;
+    }
+    
+    NSString *description = [self description];
+    
+    // Check for AI summary related strings in element description
+    // Expanded patterns based on common YouTube element naming
+    NSArray *summaryPatterns = @[
+        @"summary.eml",
+        @"ai_summary",
+        @"video_summary",
+        @"gemini",
+        @"summary_button",
+        @"summary_card",
+        @"summary_shelf",
+        @"video_summary_card",
+        @"gemini_summary",
+        @"summary_card.eml",
+        @"video_summary_button",
+        @"ai_summary_card",
+        @"gemini_button"
+    ];
+    
+    for (NSString *pattern in summaryPatterns) {
+        if ([description containsString:pattern]) {
+            // Return empty data to prevent rendering
+            return [NSData data];
+        }
+    }
+    
+    return %orig;
+}
+%end
+
+// Recursive function to find summary elements in node hierarchy
+static BOOL findSummaryInNodeController(id nodeController, NSArray <NSString *> *identifiers) {
+    if (!nodeController) return NO;
+    
+    // Check if nodeController has children method
+    if (![nodeController respondsToSelector:@selector(children)]) {
+        return NO;
+    }
+    
+    NSArray *children = [nodeController performSelector:@selector(children)];
+    if (!children) return NO;
+    
+    for (id child in children) {
+        // Check ELMNodeController children
+        Class ELMNodeControllerClass = objc_lookUpClass("ELMNodeController");
+        if (ELMNodeControllerClass && [child isKindOfClass:ELMNodeControllerClass]) {
+            if ([child respondsToSelector:@selector(children)]) {
+                NSArray *elmChildren = [child performSelector:@selector(children)];
+                if (elmChildren) {
+                    Class ELMComponentClass = objc_lookUpClass("ELMComponent");
+                    for (id elmChild in elmChildren) {
+                        if (ELMComponentClass && [elmChild isKindOfClass:ELMComponentClass]) {
+                            NSString *desc = [elmChild description];
+                            for (NSString *identifier in identifiers) {
+                                if (desc && [desc containsString:identifier]) {
+                                    return YES;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Check ASNodeController children
+        Class ASNodeControllerClass = objc_lookUpClass("ASNodeController");
+        if (ASNodeControllerClass && [child isKindOfClass:ASNodeControllerClass]) {
+            // Check yogaChildren for accessibility identifiers
+            if ([child respondsToSelector:@selector(node)]) {
+                id node = [child performSelector:@selector(node)];
+                Class ASDisplayNodeClass = objc_lookUpClass("ASDisplayNode");
+                if (ASDisplayNodeClass && [node isKindOfClass:ASDisplayNodeClass]) {
+                    if ([node respondsToSelector:@selector(yogaChildren)]) {
+                        NSArray *yogaChildren = [node performSelector:@selector(yogaChildren)];
+                        if (yogaChildren) {
+                            for (id displayNode in yogaChildren) {
+                                if ([displayNode respondsToSelector:@selector(accessibilityIdentifier)]) {
+                                    NSString *accId = [displayNode accessibilityIdentifier];
+                                    for (NSString *identifier in identifiers) {
+                                        if (accId && [accId containsString:identifier]) {
+                                            return YES;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Recursively search child
+            if (findSummaryInNodeController(child, identifiers)) {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+// Hide AI Summaries using ASCollectionView sizeForElement hook
+%hook ASCollectionView
+- (CGSize)sizeForElement:(id)element {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"hideAISummaries_enabled"]) {
+        return %orig;
+    }
+    
+    // Get node and controller from element
+    if (!element || ![element respondsToSelector:@selector(node)]) {
+        return %orig;
+    }
+    
+    id node = [element performSelector:@selector(node)];
+    if (!node || ![node respondsToSelector:@selector(controller)]) {
+        return %orig;
+    }
+    
+    id nodeController = [node performSelector:@selector(controller)];
+    if (!nodeController) {
+        return %orig;
+    }
+    
+    // Search for summary identifiers in node hierarchy
+    NSArray *summaryIdentifiers = @[
+        @"summary",
+        @"ai_summary",
+        @"video_summary",
+        @"gemini",
+        @"summary_button",
+        @"summary_card",
+        @"summary.eml",
+        @"video_summary_card",
+        @"gemini_summary"
+    ];
+    
+    if (findSummaryInNodeController(nodeController, summaryIdentifiers)) {
+        // Return zero size to prevent rendering
+        return CGSizeZero;
+    }
+    
+    return %orig;
+}
+%end
+
+// Remove summary cells from collection view
+%hook YTAsyncCollectionView
+- (id)cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = %orig;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults boolForKey:@"hideAISummaries_enabled"]) {
+        return cell;
+    }
+    
+    // Check _ASCollectionViewCell for summary accessibility identifiers
+    Class ASCollectionViewCellClass = objc_lookUpClass("_ASCollectionViewCell");
+    if (ASCollectionViewCellClass && [cell isKindOfClass:ASCollectionViewCellClass]) {
+        if ([cell respondsToSelector:@selector(node)]) {
+            id node = [cell performSelector:@selector(node)];
+            
+            // Check top-level accessibility identifier
+            if (node && [node respondsToSelector:@selector(accessibilityIdentifier)]) {
+                NSString *identifier = [node accessibilityIdentifier];
+                
+                // Check for summary-related identifiers
+                NSArray *summaryIdentifiers = @[
+                    @"summary",
+                    @"ai_summary",
+                    @"video_summary",
+                    @"gemini",
+                    @"summary_button",
+                    @"summary_card",
+                    @"summary_shelf",
+                    @"video_summary_card",
+                    @"gemini_summary"
+                ];
+                
+                for (NSString *summaryId in summaryIdentifiers) {
+                    if (identifier && [identifier containsString:summaryId]) {
+                        id selfId = (id)self;
+                        [selfId performSelector:@selector(removeCellsAtIndexPath:) withObject:indexPath];
+                        return cell;
+                    }
+                }
+            }
+            
+            // Search deeper in node hierarchy
+            if (node && [node respondsToSelector:@selector(controller)]) {
+                id nodeController = [node performSelector:@selector(controller)];
+                NSArray *summaryIdentifiers = @[
+                    @"summary",
+                    @"ai_summary",
+                    @"video_summary",
+                    @"gemini",
+                    @"summary_button",
+                    @"summary_card",
+                    @"summary.eml",
+                    @"video_summary_card",
+                    @"gemini_summary"
+                ];
+                
+                if (findSummaryInNodeController(nodeController, summaryIdentifiers)) {
+                    id selfId = (id)self;
+                    [selfId performSelector:@selector(removeCellsAtIndexPath:) withObject:indexPath];
+                    return cell;
+                }
+            }
+        }
+    }
+    
+    return cell;
+}
+
+%new(v)
+- (void)removeCellsAtIndexPath:(NSIndexPath *)indexPath {
+    id selfId = (id)self;
+    [selfId performSelector:@selector(deleteItemsAtIndexPaths:) withObject:@[indexPath]];
+}
+%end
+
+// Hide AI Summaries (Fallback) - Look for sparkle/star icon (✨) and Summary text in views
 static BOOL containsSparkleOrSummary(UIView *view) {
     // Check if view contains sparkle character or "Summary" text
     if ([view isKindOfClass:[UILabel class]]) {
@@ -297,7 +532,18 @@ static BOOL containsSparkleOrSummary(UIView *view) {
             [accLabel containsString:@"✧"] ||
             [accLabel containsString:@"✦"] ||
             [accLabel rangeOfString:@"Summary" options:NSCaseInsensitiveSearch].location != NSNotFound ||
-            [accLabel containsString:@"sparkle"]) {
+            [accLabel containsString:@"sparkle"] ||
+            [accLabel containsString:@"gemini"]) {
+            return YES;
+        }
+    }
+    
+    // Check accessibility identifier
+    if (view.accessibilityIdentifier) {
+        NSString *accId = view.accessibilityIdentifier;
+        if ([accId rangeOfString:@"summary" options:NSCaseInsensitiveSearch].location != NSNotFound ||
+            [accId containsString:@"gemini"] ||
+            [accId containsString:@"ai_summary"]) {
             return YES;
         }
     }
