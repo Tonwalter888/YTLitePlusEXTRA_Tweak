@@ -1,11 +1,14 @@
 # YTweaks
 
-Adds a few extra options to the iOS YouTube app:
-- Fullscreen to Right
-- Fullscreen to Left
-- Disable floating Miniplayer
+Working features:
+- **Fullscreen to the right or left**: Locks fullscreen orientation.
+- **Disable floating miniplayer**: Restores the old miniplayer by disabling the floating miniplayer.
+- **Virtual fullscreen bezels**: Adds invisible touch-safe zones on black bars to prevent accidental taps and skips.
 
-More settings may be added if I find them useful. Designed to work with a [fork of YTLite](https://github.com/fosterbarnes/YTLite) (also known as [YouTube Plus](https://github.com/dayanch96/YTLite)).
+Experimental:
+- **Hide AI Summaries**: Attempts to block/hide AI summaries below videos in the home feed.
+
+More settings will most likely be added in the future. Designed to work with a [fork of YTLite](https://github.com/fosterbarnes/YTPlusYTweaks/) (also known as [YouTube Plus](https://github.com/dayanch96/YTLite)).
 
 ## Supported YouTube versions
 
