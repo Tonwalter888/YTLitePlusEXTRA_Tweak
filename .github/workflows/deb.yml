@@ -1,0 +1,122 @@
+name: Build YTweaks .deb package
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: 
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout YTweaks
+        uses: actions/checkout@v4.1.1
+        with:
+          submodules: recursive
+
+      - name: Install Dependencies
+        run: brew install make ldid
+
+      - name: Set PATH environment variable
+        run: echo "$(brew --prefix make)/libexec/gnubin" >> $GITHUB_PATH
+
+      - name: Cache Theos
+        id: theos
+        uses: actions/cache@v4
+        env:
+          cache-name: theos_cache_67db2ab
+        with:
+          path: theos/
+          key: ${{ env.cache-name }}
+          restore-keys: ${{ env.cache-name }}
+
+      - name: Setup Theos
+        if: steps.theos.outputs.cache-hit != 'true'
+        uses: actions/checkout@v4.1.7
+        with:
+          repository: theos/theos
+          ref: 67db2ab8d950910161730de77c322658ea3e6b44
+          path: ${{ github.workspace }}/theos
+          submodules: recursive
+
+      - name: Download iOS SDK
+        if: steps.theos.outputs.cache-hit != 'true'
+        run: |
+          git clone --quiet -n --depth=1 --filter=tree:0 https://github.com/theos/sdks/
+          cd sdks
+          git sparse-checkout set --no-cone iPhoneOS16.5.sdk
+          git checkout
+          mv *.sdk $THEOS/sdks
+        env:
+          THEOS: ${{ github.workspace }}/theos
+
+      - name: Clone YouTubeHeader
+        run: |
+          if [ -d "$THEOS/include/YouTubeHeader" ]; then
+            echo "YouTubeHeader exists. Pulling latest changes..."
+            cd $THEOS/include/YouTubeHeader
+            git pull
+          else
+            echo "YouTubeHeader does not exist. Cloning repository..."
+            cd $THEOS/include
+            git clone --quiet --depth=1 https://github.com/PoomSmart/YouTubeHeader.git
+          fi
+        env:
+          THEOS: ${{ github.workspace }}/theos
+
+      - name: Clone PSHeader
+        run: |
+          if [ -d "$THEOS/include/PSHeader" ]; then
+            echo "PSHeader exists. Pulling latest changes..."
+            cd $THEOS/include/PSHeader
+            git pull
+          else
+            echo "PSHeader does not exist. Cloning repository..."
+            cd $THEOS/include
+            git clone --quiet --depth=1 https://github.com/PoomSmart/PSHeader.git
+          fi
+        env:
+          THEOS: ${{ github.workspace }}/theos
+
+      - name: Build YTweaks
+        run: |
+          cd ${{ github.workspace }}
+          echo "Building YTweaks..."
+          make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ${{ github.workspace }}/ytwks.deb
+        env:
+          THEOS: ${{ github.workspace }}/theos
+
+      - name: Collect DEB files
+        run: |
+          cd ${{ github.workspace }}
+          mkdir -p debs
+          if [ -f "ytwks.deb" ]; then
+            cp "ytwks.deb" debs/
+            echo "Collected: ytwks.deb"
+          fi
+          echo "Total DEB files: $(ls -1 debs/*.deb 2>/dev/null | wc -l | tr -d ' ')"
+
+      - name: Rename DEB files
+        run: |
+          cd ${{ github.workspace }}/debs
+          [ -f "ytwks.deb" ] && mv "ytwks.deb" "YTweaks.deb"
+          echo "Renamed DEB file to YTweaks.deb"
+
+      - name: Upload to GitHub Releases
+        uses: softprops/action-gh-release@v2.0.1
+        with:
+          tag_name: ytweaks-${{ github.run_number }}
+          name: YTweaks DEB (${{ github.run_number }})
+          files: debs/*.deb
+          draft: true
+
+      - name: Output Release URL
+        run: |
+          echo "::notice::Release available at: https://github.com/${{ github.repository }}/releases"
