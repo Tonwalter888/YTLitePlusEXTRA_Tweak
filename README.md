@@ -4,6 +4,7 @@ Working features:
 - **Fullscreen to the right or left**: Locks fullscreen orientation.
 - **Disable floating miniplayer**: Restores the old miniplayer by disabling the floating miniplayer.
 - **Virtual fullscreen bezels**: Adds invisible touch-safe zones on black bars to prevent accidental taps and skips.
+- **Fix Casting** - Attempts to fix casting by changing some A/B flags. Only works on v20.10.4 or lower.
 
 Experimental:
 - **Hide AI Summaries**: Attempts to block/hide AI summaries below videos in the home feed.
@@ -21,7 +22,7 @@ Refer to [YTPlusYTweaks](https://github.com/fosterbarnes/YTPlusYTweaks#how-to-bu
 
 ## Supported YouTube versions
 
-Confirmed version 20.20.7 - 20.50.9. Lower/higher are either untested or unsupported.
+Confirmed version 20.10.4 - 20.50.9. Lower/higher are either untested or unsupported.
 
 ## Special Thanks
 
